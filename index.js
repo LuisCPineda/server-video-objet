@@ -30,11 +30,11 @@ app.post("/miseAJourInterface", (req, res) => {
   const localObjet = req.body.localObjet;
   const isLocalisation = req.body.isLocalisation;
 
-  const idNb = req.body.idNb;
-  const dateJour = req.body.dateJour;
-  const idNbVideoJour = req.body.idNbVideoJour;
-  const nbJouer = req.body.nbJouer;
-  const tempsTotal = req.body.tempsTotal;
+//   const idNb = req.body.idNb;
+//   const dateJour = req.body.dateJour;
+//   const idNbVideoJour = req.body.idNbVideoJour;
+//   const nbJouer = req.body.nbJouer;
+//   const tempsTotal = req.body.tempsTotal;
 
   const idVideo = req.body.idVideo;
   const tailleVideo = req.body.tailleVideo;
