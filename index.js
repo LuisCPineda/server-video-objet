@@ -47,7 +47,7 @@ app.post("/miseAJourInterface", async (req, res) => {
   const checkTable = await pool.query("SELECT * FROM objets WHERE id_objet=?", [
     idObjet,
   ]);
-  console.log(checkTable)
+  console.log(await checkTable)
   const idObjetSelected = checkTable.map((row) => row.id_objet);
   if (!idObjetSelected) {
     //insert
