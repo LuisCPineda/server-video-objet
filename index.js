@@ -45,15 +45,15 @@ app.post("/miseAJourInterface", async (req, res) => {
   const ordre = req.body.ordre;
 
   console.log(idObjet);
-  const checkTable = await pool.query("SELECT * FROM objets WHERE id_objet=?", [
+  const checkTable = await pool.query("SELECT * FROM objets", [
     idObjet,
   ]);
   console.log(await checkTable)
-  const idObjetSelected = checkTable.map((row) => row.id_objet);
-  if (!idObjetSelected) {
-    //insert
-    console.log("fais un insert");
-  }
+//   const idObjetSelected = checkTable.map((row) => row.id_objet);
+//   if (!idObjetSelected) {
+//     //insert
+//     console.log("fais un insert");
+//   }
 });
 
 app.listen(port, () => {
