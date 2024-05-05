@@ -47,6 +47,7 @@ app.post("/miseAJourInterface", (req, res) => {
   const idObjetSelected = checkTable.map((row)=>row.id_objet)
   if(!idObjetSelected){
     //insert
+    console.log("fais un insert")
   }
 });
 
