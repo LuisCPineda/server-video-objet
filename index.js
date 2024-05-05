@@ -10,6 +10,7 @@ const pool = mysql.createPool({
   user: "root",
   password: "Tannery",
   database: "video_courant",
+  port:"3306"
 });
 
 pool.getConnection((err, connection) => {
