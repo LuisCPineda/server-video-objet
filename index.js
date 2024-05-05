@@ -1,25 +1,26 @@
 import express from "express";
+import mysql from "mysql";
 const app = express();
-const port = 5000;
+const port = 3000;
 
 app.use(express.json());
 
-try {
-  createPool()
-    .then(() => {
-      console.log("Database connected");
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "Tannery",
+  database: "video_courant",
+});
 
-      app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-      });
-    })
-    .catch((err) => {
-      console.log("Database connection error", err);
-      process.exit(1);
-    });
-} catch (err) {
-  console.log(err);
-}
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.log("erreur connexion db");
+  }
+  if (connection) {
+    connection.release();
+    console.log("connexion db reussie");
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -31,25 +32,25 @@ app.post("/miseAJourInterface", (req, res) => {
   const localObjet = req.body.localObjet;
   const isLocalisation = req.body.isLocalisation;
 
-//   const idNb = req.body.idNb;
-//   const dateJour = req.body.dateJour;
-//   const idNbVideoJour = req.body.idNbVideoJour;
-//   const nbJouer = req.body.nbJouer;
-//   const tempsTotal = req.body.tempsTotal;
+  //   const idNb = req.body.idNb;
+  //   const dateJour = req.body.dateJour;
+  //   const idNbVideoJour = req.body.idNbVideoJour;
+  //   const nbJouer = req.body.nbJouer;
+  //   const tempsTotal = req.body.tempsTotal;
 
   const idVideo = req.body.idVideo;
   const tailleVideo = req.body.tailleVideo;
   const md5Video = req.body.md5Video;
   const ordre = req.body.ordre;
   console.log(idObjet);
-  //   const checkTable = pool.query("SELECT * FROM objets WHERE id_objet=?", [
-  //     idObjet,
-  //   ]);
-  //   const idObjetSelected = checkTable.map((row) => row.id_objet);
-  //   if (!idObjetSelected) {
-  //     //insert
-  //     console.log("fais un insert");
-  //   }
+  const checkTable = pool.query("SELECT * FROM objets WHERE id_objet=?", [
+    idObjet,
+  ]);
+  const idObjetSelected = checkTable.map((row) => row.id_objet);
+  if (!idObjetSelected) {
+    //insert
+    console.log("fais un insert");
+  }
 });
 
 app.listen(port, () => {
