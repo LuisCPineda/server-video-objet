@@ -1,7 +1,12 @@
-const express = require("express");
-const mysql = require("mysql");
+import express from "express";
+import mysql from "mysql"
+import interfaceRoute from "./routes/interface-routes.js"
+
+
 const app = express();
 const port = 3000;
+
+app.use(express.json());
 
 const pool = mysql.createPool({
   host: "localhost",
