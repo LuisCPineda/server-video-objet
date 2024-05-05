@@ -1,0 +1,25 @@
+# Dependency directories
+node_modules/
+
+# Environment configuration files
+.env
+.env.development
+.env.production
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Firebase private key
+wiobl-79bf0-firebase-adminsdk-n7os0-f18c010782.json
