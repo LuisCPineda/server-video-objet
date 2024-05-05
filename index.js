@@ -40,14 +40,14 @@ app.post("/miseAJourInterface", (req, res) => {
   const tailleVideo = req.body.tailleVideo;
   const md5Video = req.body.md5Video;
   const ordre = req.body.ordre;
-
+  console.log(idObjet)
   const checkTable = pool.query("SELECT * FROM objets WHERE id_objet=?", [
     idObjet,
   ]);
-  const idObjetSelected = checkTable.map((row)=>row.id_objet)
-  if(!idObjetSelected){
+  const idObjetSelected = checkTable.map((row) => row.id_objet);
+  if (!idObjetSelected) {
     //insert
-    console.log("fais un insert")
+    console.log("fais un insert");
   }
 });
 
