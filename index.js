@@ -1,29 +1,25 @@
 import express from "express";
-import mysql from "mysql"
-import interfaceRoute from "./routes/interface-routes.js"
-
-
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "Tannery",
-  database: "video_courant",
-});
+try {
+  createPool()
+    .then(() => {
+      console.log("Database connected");
 
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.log("erreur connexion db");
-  }
-  if (connection) {
-    connection.release();
-    console.log("connexion db reussie");
-  }
-});
+      app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+      });
+    })
+    .catch((err) => {
+      console.log("Database connection error", err);
+      process.exit(1);
+    });
+} catch (err) {
+  console.log(err);
+}
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

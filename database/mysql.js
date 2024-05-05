@@ -14,10 +14,12 @@ export const createPool = () => {
 
     pool.getConnection((err, connection) => {
       if (err) {
+        console.log("erreur connexion db");
         reject(err);
       }
       if (connection) {
         connection.release();
+        console.log("connexion db reussie");
         resolve();
       }
     });
