@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/miseAJourInterface", (req, res) => {
+app.post("/miseAJourInterface", async (req, res) => {
   const { idObjet } = req.body;
   const nomObjet = req.body.nomObjet;
   const localObjet = req.body.localObjet;
@@ -44,10 +44,10 @@ app.post("/miseAJourInterface", (req, res) => {
   const ordre = req.body.ordre;
 
   console.log(idObjet);
-  const checkTable = pool.query("SELECT * FROM objets WHERE id_objet=?", [
+  const checkTable = await pool.query("SELECT * FROM objets WHERE id_objet=?", [
     idObjet,
   ]);
-  console.log(checkTable.results)
+  console.log(checkTable)
   const idObjetSelected = checkTable.map((row) => row.id_objet);
   if (!idObjetSelected) {
     //insert
