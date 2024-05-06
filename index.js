@@ -1,9 +1,20 @@
 import express from "express";
 import mysql from "mysql";
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(express.json());
+let db
+try{
+    db = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "Tannery",
+        database: "video_courant",
+        port: 3306
+    })
+    
+}catch(err){
 
 const pool = mysql.createPool({
   host: "localhost",
@@ -13,15 +24,6 @@ const pool = mysql.createPool({
   port:3306
 });
 
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.log("erreur connexion db");
-  }
-  if (connection) {
-    connection.release();
-    console.log("connexion db reussie");
-  }
-});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
