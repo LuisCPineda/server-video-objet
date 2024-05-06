@@ -1,5 +1,6 @@
 import express from "express";
 import mysql from "mysql";
+
 const app = express();
 const port = 3000;
 
@@ -14,12 +15,11 @@ const pool = mysql.createPool({
 
 pool.getConnection((err, connection) => {
   if (err) {
-    console.log("erreur connexion db");
+    console.error("Erreur de connexion à la base de données:", err);
+    return;
   }
-  if (connection) {
-    connection.release();
-    console.log("connexion db reussie");
-  }
+  connection.release();
+  console.log("Connexion à la base de données réussie");
 });
 
 app.get("/", (req, res) => {
@@ -28,38 +28,21 @@ app.get("/", (req, res) => {
 
 app.post("/miseAJourInterface", async (req, res) => {
   const { idObjet } = req.body;
-  const nomObjet = req.body.nomObjet;
-  const localObjet = req.body.localObjet;
-  const isLocalisation = req.body.isLocalisation;
-
-  const idNb = req.body.idNb;
-  const dateJour = req.body.dateJour;
-  const idNbVideoJour = req.body.idNbVideoJour;
-  const nbJouer = req.body.nbJouer;
-  const tempsTotal = req.body.tempsTotal;
-
-  const idVideo = req.body.idVideo;
-  const tailleVideo = req.body.tailleVideo;
-  const md5Video = req.body.md5Video;
-  const ordre = req.body.ordre;
 
   console.log(idObjet);
-  try{
-    const checkTable = await pool.query("SELECT * FROM objets WHERE id_objet=?", [
-        idObjet,
-      ]);
-      console.log(await checkTable)
-  }catch(err){
-    console.log(err)
+  try {
+    const checkTable = await pool.query(
+      "SELECT * FROM objets WHERE id_objet=?",
+      [idObjet]
+    );
+    console.log("Résultat de la requête:", checkTable);
+    res.json(checkTable); // Envoyer la réponse JSON
+  } catch (err) {
+    console.error("Erreur lors de l'exécution de la requête SQL:", err);
+    res.status(500).json({ error: "Erreur lors de la requête SQL" }); // Envoyer une réponse d'erreur
   }
-  
-//   const idObjetSelected = checkTable.map((row) => row.id_objet);
-//   if (!idObjetSelected) {
-//     //insert
-//     console.log("fais un insert");
-//   }
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Serveur démarré sur http://localhost:${port}`);
 });
