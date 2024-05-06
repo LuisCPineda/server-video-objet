@@ -32,8 +32,7 @@ app.post("/miseAJourInterface", async (req, res) => {
   console.log(idObjet);
   try {
     const checkTable = await pool.query(
-      "SELECT * FROM objets WHERE id_objet=?",
-      [idObjet]
+      "select * from objets;"
     );
     console.log("Résultat de la requête:", checkTable);
     res.json(checkTable); // Envoyer la réponse JSON
