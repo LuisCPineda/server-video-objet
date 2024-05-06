@@ -4,24 +4,21 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+let db
+try{
+    db = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "Tannery",
+        database: "video_courant",
+        port: 3306
+    })
+    
+}catch(err){
 
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "Tanner",
-  database: "video_courant",
-  port: 3306
-});
+}
+db.connect();
 
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.log("erreur connexion db");
-  }
-  if (connection) {
-    connection.release();
-    console.log("connexion db reussie");
-  }
-});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -45,7 +42,7 @@ app.post("/miseAJourInterface", async (req, res) => {
   const ordre = req.body.ordre;
 
   console.log(idObjet);
-  const checkTable = await pool.query("SELECT * FROM objets", [
+  const checkTable = await db.query("SELECT * FROM objets", [
     idObjet,
   ]);
   console.log(await checkTable)
