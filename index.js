@@ -1,29 +1,27 @@
 import express from "express";
 import mysql from "mysql";
 const app = express();
-const port = 3001;
+const port = 3000;
 
 app.use(express.json());
-let db
-try{
-    db = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "Tannery",
-        database: "video_courant",
-        port: 3306
-    })
-    
-}catch(err){
 
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "Tanner",
+  password: "Tannery",
   database: "video_courant",
-  port: 3306
+  port:3306
 });
 
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.log("erreur connexion db");
+  }
+  if (connection) {
+    connection.release();
+    console.log("connexion db reussie");
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -47,15 +45,15 @@ app.post("/miseAJourInterface", async (req, res) => {
   const ordre = req.body.ordre;
 
   console.log(idObjet);
-  const checkTable = await db.query("SELECT * FROM objets", [
+  const checkTable = await pool.query("SELECT * FROM objets WHERE id_objet=?", [
     idObjet,
   ]);
   console.log(await checkTable)
-//   const idObjetSelected = checkTable.map((row) => row.id_objet);
-//   if (!idObjetSelected) {
-//     //insert
-//     console.log("fais un insert");
-//   }
+  const idObjetSelected = checkTable.map((row) => row.id_objet);
+  if (!idObjetSelected) {
+    //insert
+    console.log("fais un insert");
+  }
 });
 
 app.listen(port, () => {
