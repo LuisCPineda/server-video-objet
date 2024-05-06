@@ -48,11 +48,11 @@ app.post("/miseAJourInterface", async (req, res) => {
     idObjet,
   ]);
   console.log(await checkTable)
-  const idObjetSelected = checkTable.map((row) => row.id_objet);
-  if (!idObjetSelected) {
-    //insert
-    console.log("fais un insert");
-  }
+//   const idObjetSelected = checkTable.map((row) => row.id_objet);
+//   if (!idObjetSelected) {
+//     //insert
+//     console.log("fais un insert");
+//   }
 });
 
 app.listen(port, () => {
