@@ -13,11 +13,13 @@ const db = mysql.createConnection({
   database: "video_courant",
   port:"3306"
 });
-db.connect((err) => {
+db.connect(async (err) => {
   if (err) {
     throw err;
   }
   console.log("MySql Connected");
+  const checkTable = await db.query("select * from objets;");
+  console.log("Résultat de la requête:", checkTable);
 });
 
 app.get("/", (req, res) => {
@@ -39,5 +41,5 @@ app.post("/miseAJourInterface", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Serveur démarré surrrrrrr http://localhost:${port}`);
+  console.log(`Serveur démarré surrrr http://localhost:${port}`);
 });
