@@ -13,7 +13,7 @@ CREATE TABLE video_objets(
     md5_video VARCHAR(250),
     ordre INTEGER,
     PRIMARY KEY (id_video)
-)
+);
 
 CREATE TABLE nb_video_jour(
     id_nb VARCHAR(100) NOT NULL,
