@@ -30,7 +30,7 @@ export const setInterface = async (req, res) => {
       videos.map(async (video) => {
         const reponseVideo = await query(
           "SELECT * from video_objets where id_video=?",
-          [video[1]]
+          [video[3]]
         );
         const idVideoSelected = reponseVideo.map((row) => row.id_video);
         
@@ -46,7 +46,7 @@ export const setInterface = async (req, res) => {
         }
         await query("update video_objets set id_objet=? Where id_video=?", [
           id_objet,
-          video[1],
+          video[3],
         ]);
         await query(
           "update nb_video_jour set nb_jouer=?,temps_total=? WHERE id_objet_nb_video_jour=?",
