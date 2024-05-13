@@ -1,145 +1,185 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+import './App.css';
 import axios from "axios";
 
 function App() {
-  const [nomObjet, setNomObjet] = useState("");
-  const [localisation, setLocalisation] = useState(false);
-  const [nomVideo, setNomVideo] = useState("");
-  const [date, setDate] = useState("");
-  const [nbJouer, setNbJouer] = useState("");
-  const [tempsTotal, setTempsTotal] = useState("");
+    const [nomObjet,setNomObjet] = useState ("")
+    const [localisation, setLocalisation] = useState(false)
+    const [nomVideo, setNomVideo] = useState("")
+    const [date, setDate] = useState("")
+    const [nbJouer,setNbJouer] = useState("")
+    const [tempsTotal, setTempsTotal] = useState("")
 
-  const handleTitleClick = async () => {
+    const handleTitleClick = async () => {
     console.log("ca fonctionne ");
-    try {
-      const index = 12332;
-      const response = await axios.post("http://0.0.0.0:5000/get_public_ip", {
-        index,
-      });
-      console.log("ca fonctionne ");
+    try {  
+        const index=12332
+        const response = await axios.post("http://0.0.0.0:5000/get_public_ip", {index});
+        console.log("ca fonctionne ");
+       
     } catch (error) {
       console.error("Erreur lors de la mise à jour de la liste :", error);
-    }
-  };
+    } } 
+    
+   
 
-  useEffect(() => {
-    // Fonction pour effectuer la requête GET
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `https://server-video-objet-eg5d39xx5-wiobl-projects.vercel.app/api/getInterface`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
+    // Appel de l'API Flask pour récupérer l'adresse IP publique
+    axios.get('http://0.0.0.0:3000/get_public_ip')
+      .then(response => {
+        console.log(response.data.public_ip);
+        console.log("ca fonctionne 1");
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération de l\'adresse IP publique :', error);
+      });
+    
+      useEffect(() => {
+        // Fonction pour effectuer la requête GET
+        const fetchData = async () => {
+          try {
+            const response = await fetch(
+                `https://server-video-objet-eg5d39xx5-wiobl-projects.vercel.app/api/getInterface`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            const objetJson = await response.json()
+            setNomObjet(objetJson[0].nom_objet)
+            if(objetJson[0].is_localisation===1){ 
+                setLocalisation(true)
+            } else if(objetJson[0].is_localisation===0) {
+                setLocalisation(false)
+            }
+            
+            setNomVideo(objetJson[0].nom_video_current)
+            setDate(objetJson[0].date_jour)
+            setNbJouer(objetJson[0].nb_jouer)
+            setTempsTotal(objetJson[0].temps_total)
+          } catch (error) {
+            console.error('Erreur lors de la récupération des données:', error);
           }
-        );
-        const objetJson = await response.json();
-        setNomObjet(objetJson[0].nom_objet);
-        if (objetJson[0].is_localisation === 1) {
-          setLocalisation(true);
-        } else if (objetJson[0].is_localisation === 0) {
-          setLocalisation(false);
-        }
-
-        setNomVideo(objetJson[0].nom_video_current);
-        setDate(objetJson[0].date_jour);
-        setNbJouer(objetJson[0].nb_jouer);
-        setTempsTotal(objetJson[0].temps_total);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
-      }
-    };
-
-    // Appeler la fonction fetchData immédiatement au montage du composant
-    fetchData();
-
-    // Mettre en place un intervalle pour rappeler la fonction fetchData toutes les 10 secondes
-    const intervalId = setInterval(fetchData, 10000);
-
-    // Nettoyer l'intervalle lors du démontage du composant pour éviter les fuites de mémoire
-    return () => clearInterval(intervalId);
-  }, []); // Le tableau
-
+        };
+    
+        // Appeler la fonction fetchData immédiatement au montage du composant
+        fetchData();
+    
+        // Mettre en place un intervalle pour rappeler la fonction fetchData toutes les 10 secondes
+        const intervalId = setInterval(fetchData, 10000);
+    
+        // Nettoyer l'intervalle lors du démontage du composant pour éviter les fuites de mémoire
+        return () => clearInterval(intervalId);
+      }, []); // Le tableau
+    
   return (
     <div className="App">
       <div class="HeaderDiv">
-        <h1>lecteur vidéos</h1>
+        <h1>
+            lecteur vidéos
+        </h1>
+      
       </div>
       <div class="BodyDiv">
-        <div class="StatisticsDiv">
-          <div>
-            <button onClick={handleTitleClick}></button>
-          </div>
 
-          <div>
-            <button>Passer au vidéo suvante</button>
-          </div>
 
-          <div>
-            <button>Arrêter les vidéos</button>
-          </div>
 
-          <div>
-            <button>Démarrer les vidéos</button>
-          </div>
-        </div>
-        <div class="FunctionsDiv">
-          <div class="Statistic">
-            <div>
-              <label>Nom Objet:</label>
-            </div>
-            <div>
-              <p>{nomObjet}</p>
-            </div>
-          </div>
+           
+      <div class="StatisticsDiv">
 
-          <div class="Statistic">
-            <div>
-              <label>Localisation:</label>
-            </div>
-            <div>{localisation ? <p>Oui</p> : <p>Non</p>}</div>
-          </div>
+<div>
+<button onClick={handleTitleClick}> 
+  </button>
+</div>
 
-          <div class="Statistic">
-            <div>
-              <label>Vidéo en cours:</label>
-            </div>
-            <div>
-              <p>{nomVideo}</p>
-            </div>
-          </div>
+<div>   
 
-          <div class="Statistic">
-            <div>
-              <label>Date:</label>
-            </div>
-            <div>
-              <p>{date}</p>
-            </div>
-          </div>
+    <button>Passer au vidéo suvante</button>
+</div>
 
-          <div class="Statistic">
-            <div>
-              <label>Nombre joué aujourd’hui :</label>
-            </div>
-            <div>
-              <p>{nbJouer}</p>
-            </div>
-          </div>
+<div>
+    <button>Arrêter les vidéos</button>
+</div>
 
-          <div class="Statistic">
-            <div>
-              <label>Temps joué aujourd’hui:</label>
-            </div>
-            <div>
-              <p>{tempsTotal}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+<div>
+    <button>Démarrer les vidéos</button>
+</div>
+
+
+
+</div>
+ <div class=  "FunctionsDiv">
+
+     <div class="Statistic">
+         <div>
+             <label>Nom Objet:</label>
+         </div>
+         <div>
+             <p>{nomObjet}</p>
+         </div>
+
+     </div>
+
+     <div class="Statistic">
+         <div>
+             <label>Localisation:</label>
+         </div>
+         <div>
+             {localisation ?<p>Oui</p>:<p>Non</p>}
+         </div>
+
+     </div>
+
+     <div class="Statistic">
+         <div>
+             <label>Vidéo en cours:</label>
+         </div>
+         <div>
+             <p>{nomVideo}</p>
+         </div>
+
+     </div>
+
+     <div class="Statistic">
+         <div>
+             <label>Date:</label>
+         </div>
+         <div>
+             <p>{date}</p>
+         </div>
+
+     </div>
+
+    
+
+     <div class="Statistic">
+         <div>
+             <label>Nombre joué aujourd’hui :</label>
+         </div>
+         <div>
+             <p>{nbJouer}</p>
+         </div>
+
+     </div>
+
+     <div class="Statistic">
+         <div>
+             <label>Temps joué aujourd’hui:</label>
+         </div>
+         <div>
+             <p>{tempsTotal}</p>
+         </div>
+
+     </div>
+
+
+
+ </div>
+
+
+
+</div>
     </div>
   );
 }
