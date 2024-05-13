@@ -19,8 +19,8 @@ function App() {
                 {
                     method: "GET",
                     headers: {
-                        "Content-Type": "application/json",
-                        'Access-Control-Allow-Origin': 'http://localhost:3000'
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        "Content-Type": "application/json"
                     },
                 }
             );
