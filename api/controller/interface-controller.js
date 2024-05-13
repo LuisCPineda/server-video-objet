@@ -60,7 +60,7 @@ export const setInterface = async (req, res) => {
 };
 
 export const getInterfaceReponse = async (req, res) => {
-  
+  console.log(req)
   try {
     const responseInter = await query("select * from objets");
     const idVideoSelected = responseInter.map((row) => row.id_video_current);
