@@ -28,6 +28,7 @@ export const setInterface = async (req, res) => {
 
     if (videos.length > 0) {
       videos.map(async (video) => {
+        console.log(video)
         const reponseVideo = await query(
           "SELECT * from video_objets where id_video=?",
           [video[1]]
