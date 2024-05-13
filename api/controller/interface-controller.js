@@ -77,6 +77,6 @@ export const getInterfaceReponse = async (req, res) => {
     responseInter[0]["date_jour"] = date_jourSelected;
     responseInter[0]["temps_total"] = temps_totalSelected;
     console.log(responseInter)
-    res.status(200).json(responseInter);
+    res.status(201).json(responseInter);
   } catch (error) {}
 };
