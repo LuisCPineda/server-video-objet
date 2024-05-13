@@ -19,7 +19,7 @@ function App() {
                 {
                     method: "GET",
                     headers: {
-                        'Access-Control-Allow-Origin': 'https://interface-three-rho.vercel.app',
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
                         "Content-Type": "application/json"
                     },
                 }
