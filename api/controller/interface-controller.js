@@ -40,7 +40,7 @@ export const setInterface = async (req, res) => {
             [id_objet, video[1]]
           );
           await query(
-            "insert into nb_video_jour (id_nb,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?,?)",
+            "insert into nb_video_jour (id_nb,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?)",
             [video[0], video[2], video[3], video[1]]
           );
         }
