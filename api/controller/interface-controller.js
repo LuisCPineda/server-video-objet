@@ -4,17 +4,13 @@ export const setInterface = async (req, res) => {
   const { id_objet, nom_objet,nom_video_current, id_video_current, is_localisation, videos } =
     req.body;
     console.log(req.body)
-  try{
+  
+
+  try {
     const checkTable = await query("SELECT * FROM objets WHERE id_objet=?", [
       id_objet,
     ]);
     const idObjetSelected = await checkTable.map((row) => row.id_objet);
-  } catch(error){
-
-  }
-  
-
-  try {
     if (!idObjetSelected[0]) {
       //insert
 
