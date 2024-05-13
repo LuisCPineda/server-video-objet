@@ -1,10 +1,16 @@
-
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from "axios";
 
 function App() {
-    console.log("ca fonctionne 5");
-  const handleTitleClick = async () => {
+    const [nomObjet,setNomObjet] = useState ("")
+    const [localisation, setLocalisation] = useState(false)
+    const [nomVideo, setNomVideo] = useState("")
+    const [date, setDate] = useState("")
+    const [nbJouer,setNbJouer] = useState("")
+    const [tempsTotal, setTempsTotal] = useState("")
+
+    const handleTitleClick = async () => {
     console.log("ca fonctionne ");
     try {  
         const index=12332
@@ -26,7 +32,46 @@ function App() {
       .catch(error => {
         console.error('Erreur lors de la récupération de l\'adresse IP publique :', error);
       });
-  
+    
+      useEffect(() => {
+        // Fonction pour effectuer la requête GET
+        const fetchData = async () => {
+          try {
+            const response = await fetch(
+                `http://localhost:4000/api/getInterface`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            const objetJson = await response.json()
+            setNomObjet(objetJson[0].nom_objet)
+            if(objetJson[0].is_localisation===1){ 
+                setLocalisation(true)
+            } else if(objetJson[0].is_localisation===0) {
+                setLocalisation(false)
+            }
+            
+            setNomVideo(objetJson[0].nom_video_current)
+            setDate(objetJson[0].date_jour)
+            setNbJouer(objetJson[0].nb_jouer)
+            setTempsTotal(objetJson[0].temps_total)
+          } catch (error) {
+            console.error('Erreur lors de la récupération des données:', error);
+          }
+        };
+    
+        // Appeler la fonction fetchData immédiatement au montage du composant
+        fetchData();
+    
+        // Mettre en place un intervalle pour rappeler la fonction fetchData toutes les 10 secondes
+        const intervalId = setInterval(fetchData, 10000);
+    
+        // Nettoyer l'intervalle lors du démontage du composant pour éviter les fuites de mémoire
+        return () => clearInterval(intervalId);
+      }, []); // Le tableau
     
   return (
     <div className="App">
@@ -71,7 +116,7 @@ function App() {
              <label>Nom Objet:</label>
          </div>
          <div>
-             <p>Objet1</p>
+             <p>{nomObjet}</p>
          </div>
 
      </div>
@@ -81,17 +126,17 @@ function App() {
              <label>Localisation:</label>
          </div>
          <div>
-             <p>Non</p>
+             {localisation ?<p>Oui</p>:<p>Non</p>}
          </div>
 
      </div>
 
      <div class="Statistic">
          <div>
-             <label>Vidéos en cours:</label>
+             <label>Vidéo en cours:</label>
          </div>
          <div>
-             <p>Video1.mp4</p>
+             <p>{nomVideo}</p>
          </div>
 
      </div>
@@ -101,7 +146,7 @@ function App() {
              <label>Date:</label>
          </div>
          <div>
-             <p>01/01/2024</p>
+             <p>{date}</p>
          </div>
 
      </div>
@@ -113,7 +158,7 @@ function App() {
              <label>Nombre joué aujourd’hui :</label>
          </div>
          <div>
-             <p>33</p>
+             <p>{nbJouer}</p>
          </div>
 
      </div>
@@ -123,7 +168,7 @@ function App() {
              <label>Temps joué aujourd’hui:</label>
          </div>
          <div>
-             <p>2h 26min 48sec</p>
+             <p>{tempsTotal}</p>
          </div>
 
      </div>

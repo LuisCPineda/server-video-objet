@@ -1,14 +1,15 @@
 import express from "express";
-import mysql from "mysql";
 import dotenv from "dotenv";
 import { createPool } from "./db/mysql.js";
 import interfaceRoutes from "./routes/interface-routes.js";
+import cors from "cors";
 
 const app = express();
-const port = 3000;
+const port = 4000;
 dotenv.config();
 
 app.use(express.json());
+app.use(cors({ origin: process.env.API_REACT_APP_URL }));
 
 app.use("/api", interfaceRoutes);
 

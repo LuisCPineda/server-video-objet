@@ -1,7 +1,8 @@
 import { query } from "../helper/query-promises.js";
 
 export const setInterface = async (req, res) => {
-  const { id_objet, nom_objet,video_nom , is_localisation, videos } = req.body;
+  const { id_objet, nom_objet,nom_video_current, id_video_current, is_localisation, videos } =
+    req.body;
 
   const checkTable = await query("SELECT * FROM objets WHERE id_objet=?", [
     id_objet,
@@ -13,14 +14,14 @@ export const setInterface = async (req, res) => {
       //insert
 
       await query(
-        "INSERT INTO objets (id_objet,nom_objet,is_localisation) VALUES (?,?,?)",
-        [id_objet, nom_objet, is_localisation]
+        "INSERT INTO objets (id_objet,nom_objet,is_localisation,id_video_current,nom_video_current) VALUES (?,?,?,?,?)",
+        [id_objet, nom_objet, is_localisation, id_video_current,nom_video_current]
       );
     }
     if (idObjetSelected[0]) {
       await query(
-        "update objets set nom_objet=?, is_localisation=? WHERE id_objet=?",
-        [nom_objet, is_localisation, id_objet]
+        "update objets set nom_objet=?, is_localisation=? ,id_video_current=?,nom_video_current=? WHERE id_objet=?",
+        [nom_objet, is_localisation, id_video_current,nom_video_current , id_objet]
       );
     }
 
@@ -39,7 +40,7 @@ export const setInterface = async (req, res) => {
           );
           await query(
             "insert into nb_video_jour (id_nb,date_jour,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?,?)",
-            [video.id_nd, video.date, video.nb, video.temps, video.id_video]
+            [video.id_nd, video.date_jour, video.nb_jouer, video.temps_total, video.id_video]
           );
         }
         await query("update video_objets set id_objet=? Where id_video=?", [
@@ -48,16 +49,34 @@ export const setInterface = async (req, res) => {
         ]);
         await query(
           "update nb_video_jour set date_jour=?, nb_jouer=?,temps_total=? WHERE id_objet_nb_video_jour=?",
-          [video.date, video.nb, video.temps, video.id_video]
+          [video.date_jour, video.nb_jouer, video.temps_total, video.id_video]
         );
       });
     }
-    res.status(200).json({ message: "All ok" });
+    res.status(201).json({ message: "All ok" });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getInterfaceReponse = async(req,res) =>{
-
-}
+export const getInterfaceReponse = async (req, res) => {
+  
+  try {
+    const responseInter = await query("select * from objets");
+    const idVideoSelected = responseInter.map((row) => row.id_video_current);
+    console.log(idVideoSelected)
+    const reponseInfoVideo = await query(
+      "select date_jour,nb_jouer,temps_total from nb_video_jour where id_objet_nb_video_jour=?",
+      [idVideoSelected]
+    );
+    console.log(reponseInfoVideo)
+    const date_jourSelected = reponseInfoVideo.map((row) => row.date_jour);
+    const nb_jouerSelected = reponseInfoVideo.map((row) => row.nb_jouer);
+    const temps_totalSelected = reponseInfoVideo.map((row) => row.temps_total);
+    responseInter[0]["nb_jouer"] = nb_jouerSelected;
+    responseInter[0]["date_jour"] = date_jourSelected;
+    responseInter[0]["temps_total"] = temps_totalSelected;
+    console.log(responseInter)
+    res.status(200).json(responseInter);
+  } catch (error) {}
+};

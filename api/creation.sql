@@ -1,6 +1,8 @@
 CREATE TABLE objets(
     id_objet VARCHAR(100) NOT NULL,
     nom_objet VARCHAR(150),
+    id_video_current VARCHAR(150),
+    nom_video_current VARCHAR(200),
     local_objet VARCHAR(100),
     is_localisation boolean,
     PRIMARY KEY (id_objet)
