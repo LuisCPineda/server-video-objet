@@ -9,7 +9,8 @@ const port = 4000;
 dotenv.config();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: process.env.API_REACT_APP_URL }));
+app.use(cors({ origin: 'http://localhost:3000' }));
 console.log(process.env.API_REACT_APP_URL);
 
 app.use("/api", interfaceRoutes);
