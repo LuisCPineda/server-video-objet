@@ -3,7 +3,6 @@ import { query } from "../helper/query-promises.js";
 export const setInterface = async (req, res) => {
   const { id_objet, nom_objet,nom_video_current, id_video_current, is_localisation, videos } =
     req.body;
-    console.log(videos)
   
 
   try {
@@ -31,28 +30,28 @@ export const setInterface = async (req, res) => {
         console.log(video)
         const reponseVideo = await query(
           "SELECT * from video_objets where id_video=?",
-          [video[1]]
+          [video[0][1]]
         );
         const idVideoSelected = reponseVideo.map((row) => row.id_video);
         
-        // if (!idVideoSelected[0]) {
-        //   await query(
-        //     "insert into video_objets (id_objet,id_video) values (?,?)",
-        //     [id_objet, video[1]]
-        //   );
-        //   await query(
-        //     "insert into nb_video_jour (id_nb,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?)",
-        //     [video[0], video[2], video[3], video[1]]
-        //   );
-        // }
-        // await query("update video_objets set id_objet=? Where id_video=?", [
-        //   id_objet,
-        //   video[3],
-        // ]);
-        // await query(
-        //   "update nb_video_jour set nb_jouer=?,temps_total=? WHERE id_objet_nb_video_jour=?",
-        //   [ video[2], video[3], video[1]]
-        // );
+        if (!idVideoSelected[0]) {
+          await query(
+            "insert into video_objets (id_objet,id_video) values (?,?)",
+            [id_objet, video[0][1]]
+          );
+          await query(
+            "insert into nb_video_jour (id_nb,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?)",
+            [video[0][0], video[0][2], video[0][3], video[0][1]]
+          );
+        }
+        await query("update video_objets set id_objet=? Where id_video=?", [
+          id_objet,
+          video[0][3],
+        ]);
+        await query(
+          "update nb_video_jour set nb_jouer=?,temps_total=? WHERE id_objet_nb_video_jour=?",
+          [ video[0][2], video[0][3], video[0][1]]
+        );
       });
     }
     res.status(201).json({ message: "All ok" });
