@@ -5,11 +5,12 @@ import interfaceRoutes from "./routes/interface-routes.js";
 import cors from "cors";
 
 const app = express();
+app.use(cors());
 const port = 5000;
 dotenv.config();
 
 app.use(express.json());
-app.use(cors());
+
 //app.use(cors({ origin: 'https://interface-three-rho.vercel.app' }));
 console.log(process.env.API_REACT_APP_URL);
 
