@@ -15,7 +15,7 @@ function App() {
         const fetchData = async () => {
           try {
             const response = await fetch(
-                `https://server-video-objet-eg5d39xx5-wiobl-projects.vercel.app/api/getInterface`,
+                `http://20.193.147.114:3000/api/getInterface`,
                 {
                     method: "GET",
                     headers: {
