@@ -3,7 +3,7 @@ import { query } from "../helper/query-promises.js";
 export const setInterface = async (req, res) => {
   const { id_objet, nom_objet,nom_video_current, id_video_current, is_localisation, videos } =
     req.body;
-    console.log(req.body)
+    console.log(videos)
   
 
   try {
