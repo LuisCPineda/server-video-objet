@@ -2,12 +2,17 @@ import { query } from "../helper/query-promises.js";
 
 export const setInterface = async (req, res) => {
   const { id_objet, nom_objet,nom_video_current, id_video_current, is_localisation, videos } =
-    req.body;
+    req.data;
+    console.log(req.data)
+  try{
+    const checkTable = await query("SELECT * FROM objets WHERE id_objet=?", [
+      id_objet,
+    ]);
+    const idObjetSelected = await checkTable.map((row) => row.id_objet);
+  } catch(error){
 
-  const checkTable = await query("SELECT * FROM objets WHERE id_objet=?", [
-    id_objet,
-  ]);
-  const idObjetSelected = checkTable.map((row) => row.id_objet);
+  }
+  
 
   try {
     if (!idObjetSelected[0]) {
@@ -32,7 +37,7 @@ export const setInterface = async (req, res) => {
           [video.id_video]
         );
         const idVideoSelected = reponseVideo.map((row) => row.id_video);
-        console.log(idVideoSelected);
+        
         if (!idVideoSelected[0]) {
           await query(
             "insert into video_objets (id_objet,id_video) values (?,?)",
@@ -60,23 +65,23 @@ export const setInterface = async (req, res) => {
 };
 
 export const getInterfaceReponse = async (req, res) => {
-  console.log(req)
+  
   try {
     const responseInter = await query("select * from objets");
     const idVideoSelected = responseInter.map((row) => row.id_video_current);
-    console.log(idVideoSelected)
+    
     const reponseInfoVideo = await query(
       "select date_jour,nb_jouer,temps_total from nb_video_jour where id_objet_nb_video_jour=?",
       [idVideoSelected]
     );
-    console.log(reponseInfoVideo)
+    
     const date_jourSelected = reponseInfoVideo.map((row) => row.date_jour);
     const nb_jouerSelected = reponseInfoVideo.map((row) => row.nb_jouer);
     const temps_totalSelected = reponseInfoVideo.map((row) => row.temps_total);
     responseInter[0]["nb_jouer"] = nb_jouerSelected;
     responseInter[0]["date_jour"] = date_jourSelected;
     responseInter[0]["temps_total"] = temps_totalSelected;
-    console.log(responseInter)
+    
     res.status(200).json(responseInter);
   } catch (error) {}
 };
