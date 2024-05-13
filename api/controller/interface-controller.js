@@ -2,8 +2,8 @@ import { query } from "../helper/query-promises.js";
 
 export const setInterface = async (req, res) => {
   const { id_objet, nom_objet,nom_video_current, id_video_current, is_localisation, videos } =
-    req.data;
-    console.log(req.data)
+    req.body;
+    console.log(req.body)
   try{
     const checkTable = await query("SELECT * FROM objets WHERE id_objet=?", [
       id_objet,
