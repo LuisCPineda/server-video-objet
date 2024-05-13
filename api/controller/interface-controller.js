@@ -27,31 +27,35 @@ export const setInterface = async (req, res) => {
 
     if (videos.length > 0) {
       videos.map(async (video) => {
-        console.log(video)
-        const reponseVideo = await query(
-          "SELECT * from video_objets where id_video=?",
-          [video[0][1]]
-        );
-        const idVideoSelected = reponseVideo.map((row) => row.id_video);
         
-        if (!idVideoSelected[0]) {
-          await query(
-            "insert into video_objets (id_objet,id_video) values (?,?)",
-            [id_objet, video[0][1]]
+        video.map(async (vid)=>{
+          console.log(vid)
+          const reponseVideo = await query(
+            "SELECT * from video_objets where id_video=?",
+            [vid[0][1]]
           );
+          const idVideoSelected = reponseVideo.map((row) => row.id_video);
+          
+          if (!idVideoSelected[0]) {
+            await query(
+              "insert into video_objets (id_objet,id_video) values (?,?)",
+              [id_objet, vid[0][1]]
+            );
+            await query(
+              "insert into nb_video_jour (id_nb,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?)",
+              [vid[0][0], vid[0][2], vid[0][3], vid[0][1]]
+            );
+          }
+          await query("update video_objets set id_objet=? Where id_video=?", [
+            id_objet,
+            vid[0][3],
+          ]);
           await query(
-            "insert into nb_video_jour (id_nb,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?)",
-            [video[0][0], video[0][2], video[0][3], video[0][1]]
-          );
-        }
-        await query("update video_objets set id_objet=? Where id_video=?", [
-          id_objet,
-          video[0][3],
-        ]);
-        await query(
-          "update nb_video_jour set nb_jouer=?,temps_total=? WHERE id_objet_nb_video_jour=?",
-          [ video[0][2], video[0][3], video[0][1]]
-        );
+            "update nb_video_jour set nb_jouer=?,temps_total=? WHERE id_objet_nb_video_jour=?",
+            [ vid[0][2], vid[0][3], vid[0][1]]
+          );  
+        })
+        
       });
     }
     res.status(201).json({ message: "All ok" });
