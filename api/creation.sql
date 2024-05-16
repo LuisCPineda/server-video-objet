@@ -14,6 +14,7 @@ CREATE TABLE objets(
 CREATE TABLE video_objets(
     id_video VARCHAR(100) NOT NULL,
     id_objet VARCHAR(100),
+    nom_video VARCHAR(200),
     taille_video INTEGER,
     md5_video VARCHAR(250),
     ordre INTEGER,
