@@ -10,7 +10,8 @@ import {
   getVideoSuivante,
   getListVideo,
   insertNewVideo,
-  download_video
+  download_video,
+  delete_video
 } from "../controller/interface-controller.js";
 import upload from "../middleware/upload-video.js"
 
@@ -29,5 +30,6 @@ router.post("/setIsLocation",setIsLocation)
 router.post("/setVideoSuivante",setVideoSuivante)
 router.post("/setIsPlayingVideo",setIsPlayingVideo)
 router.post("/addVideo",upload.single('file'),insertNewVideo)
+router.post("/deleteVideo",delete_video)
 
 export default router;

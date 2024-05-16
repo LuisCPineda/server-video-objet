@@ -222,7 +222,14 @@ export const download_video = async (req, res) => {
       }
     } catch (error) {}
 
-    
-    
-
 };
+
+export const delete_video = async (req,res)=>{
+  try{
+    await query("delete from video_download;")
+    res.status(201).json({ message: "All ok deletevideo" });
+  }catch(error){
+
+  }
+
+}
