@@ -212,7 +212,7 @@ export const download_video = async (req, res) => {
             res.end('Fichier vidéo non trouvé');
             return;
           }
-    
+          res.setHeader('Content-Disposition', `attachment; filename=${nom_video}`);
           fs.createReadStream(videoPath).pipe(res);
         });
       } catch (error) {
