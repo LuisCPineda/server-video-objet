@@ -51,6 +51,68 @@ function App() {
         return () => clearInterval(intervalId);
       }, []); // Le tableau
     
+    const onClickIsLocalisation = async () =>{
+        try{
+            const response = await fetch(
+                `http://20.193.147.114:3000/api/setIsLocation`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        is_localisation: true,
+                        id_objet:'123456789'
+                    }),
+                }
+            );
+        }catch(err){
+
+        }
+    }
+    const onClickIsPlaying = async (is_playing,is_stopping) =>{
+        try{
+            const response = await fetch(
+                `http://20.193.147.114:3000/api/setIsPlayingVideo`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        is_playing: is_playing,
+                        is_stopping: is_stopping,
+                        id_objet:'123456789'
+                    }),
+                }
+            );
+        }catch(err){
+
+        }
+    }
+    const onClickVideoSuivante= async () =>{
+        try{
+            const response = await fetch(
+                `http://20.193.147.114:3000/api/setVideoSuivante`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        video_suivante: true,
+                        id_objet:'123456789'
+                    }),
+                }
+            );
+        }catch(err){
+
+        }
+    }
+
   return (
     <div className="App">
       <div class="HeaderDiv">
@@ -67,21 +129,20 @@ function App() {
       <div class="StatisticsDiv">
 
 <div>
-<button > 
-  </button>
+<button onClick={onClickIsLocalisation}>Localisation</button>
 </div>
 
 <div>   
 
-    <button>Passer au vidéo suvante</button>
+    <button onClick={onClickVideoSuivante}>Passer au vidéo suvante</button>
 </div>
 
 <div>
-    <button>Arrêter les vidéos</button>
+    <button onClick={(e)=>onClickIsPlaying(false,true)}>Arrêter les vidéos</button>
 </div>
 
 <div>
-    <button>Démarrer les vidéos</button>
+    <button onClick={(e)=>onClickIsPlaying(true,false)}>Démarrer les vidéos</button>
 </div>
 
 

@@ -88,10 +88,10 @@ export const getInterfaceReponse = async (req, res) => {
 
 
 export const setIsPlayingVideo = async (req,res) =>{
-  const {is_playing,id_objet}= req.body
+  const {is_playing,is_stopping,id_objet}= req.body
   try{
-    const request="update objets set is_playing=? Where id_objet=?"
-    await query(request,[is_playing,id_objet])
+    const request="update objets set is_playing=?,is_stopping=? Where id_objet=?"
+    await query(request,[is_playing,is_stopping,id_objet])
     res.status(201).json({ message: "All ok setIsPlayingVideo" })
   }catch(erreur){
 

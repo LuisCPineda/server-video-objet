@@ -6,6 +6,7 @@ CREATE TABLE objets(
     local_objet VARCHAR(100),
     is_localisation boolean,
     is_playing boolean,
+    is_stopping boolean,
     video_suivante boolean,
     PRIMARY KEY (id_objet)
 );
