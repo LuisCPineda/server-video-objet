@@ -25,6 +25,6 @@ router.post("/miseAJourInterface", setInterface);
 router.post("/setIsLocation",setIsLocation)
 router.post("/setVideoSuivante",setVideoSuivante)
 router.post("/setIsPlayingVideo",setIsPlayingVideo)
-router.post("/addVideo",upload)
+router.post("/addVideo",upload.single('file'))
 
 export default router;

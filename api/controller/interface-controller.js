@@ -173,3 +173,7 @@ export const getVideoSuivante = async (req, res) => {
     res.status(200).json(response);
   } catch (erreur) {}
 };
+
+export const insertVideo = async (req,res) =>{
+  
+}
