@@ -189,7 +189,7 @@ export const insertNewVideo = async (req, res) => {
 };
 
 export const download_video = async (req, res) => {
-  if (req.method === "GET" && req.url === "/video") {
+  
     try {
       const request = "SELECT * from video_download";
       const response = await query(request);
@@ -215,8 +215,5 @@ export const download_video = async (req, res) => {
       res.statusCode = 404;
       res.end("Fichier vidéo non trouvé");
     }
-  } else {
-    res.statusCode = 404;
-    res.end("Page non trouvée");
-  }
+
 };
