@@ -191,8 +191,8 @@ export const download_video = async (req, res) => {
   try{
     const request = 'SELECT * from video_download'
     const response = await query(request)
-    const nom_video = await response.map((row) => row.nom_video);
-    const taille_video = await response.map((row) => row.taille_video);
+    const nom_video = await response.map((row) => row.nom_video)[0];
+    const taille_video = await response.map((row) => row.taille_video)[0];
     console.log(nom_video,taille_video)
   }catch(error){
 
