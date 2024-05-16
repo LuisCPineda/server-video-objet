@@ -1,6 +1,6 @@
 import { query } from "../helper/query-promises.js";
-import {fs} from "fs";
-import {path} from "path";
+import fs from "fs";
+import path from "path";
 
 export const setInterface = async (req, res) => {
   const {
