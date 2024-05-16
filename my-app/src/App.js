@@ -138,8 +138,7 @@ function App() {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:3000"
         },
         body: formData,
       });

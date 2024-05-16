@@ -12,7 +12,6 @@ export const setInterface = async (req, res) => {
     video_suivante,
     videos,
   } = req.body;
-  console.log(videos);
 
   try {
     const checkTable = await query("SELECT * FROM objets WHERE id_objet=?", [
@@ -52,7 +51,7 @@ export const setInterface = async (req, res) => {
     if (videos.length > 0) {
       videos.map(async (video) => {
         video.map(async (vid) => {
-          console.log(vid);
+          
           const reponseVideo = await query(
             "SELECT * from video_objets where id_video=?",
             [vid[0]]
@@ -161,7 +160,7 @@ export const setVideoSuivante = async (req, res) => {
   try {
     const request = "update objets set video_suivante=? Where id_objet=?";
     await query(request, [video_suivante, id_objet]);
-    res.status(201).json({ message: "All ok setIsPlayingVideo" });
+    res.status(201).json({ message: "All ok setVideoSuivante" });
   } catch (erreur) {}
 };
 
@@ -174,9 +173,17 @@ export const getVideoSuivante = async (req, res) => {
   } catch (erreur) {}
 };
 
-export const insertVideo = async (req,res) =>{
+export const insertNewVideo = async (req,res) =>{
   const nom_video = req.file.originalname;
   const taille_video = req.file.size;
   console.log(nom_video)
-  res.status(201)
+  try{
+    await query("insert into video_download (nom_video,taille_video) values (?,?)",[nom_video,taille_video])
+    await query("update objets set video_suivante=? Where id_objet=?",[true,"123456789"])
+    res.status(201).json({ message: "All ok insertNewVideo" });
+  }
+  catch(error){
+
+  }
+  
 }

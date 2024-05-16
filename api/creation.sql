@@ -8,6 +8,7 @@ CREATE TABLE objets(
     is_playing boolean,
     is_stopping boolean,
     video_suivante boolean,
+    download boolean,
     PRIMARY KEY (id_objet)
 );
 
@@ -30,3 +31,7 @@ CREATE TABLE nb_video_jour(
     PRIMARY KEY (id_nb)
 );
 
+CREATE TABLE video_download(
+    nom_video VARCHAR(200),
+    taille_video INTEGER
+)
