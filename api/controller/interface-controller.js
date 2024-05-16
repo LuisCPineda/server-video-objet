@@ -204,9 +204,16 @@ export const download_video = async (req, res) => {
       );
   
       try {
-        await fsPromises.access(videoPath);
-        const videoStream = fsPromises.createReadStream(videoPath);
-        videoStream.pipe(res);
+        fs.access(videoPath, fs.constants.F_OK, (err) => {
+          if (err) {
+            console.error('Le fichier vidéo est introuvable:', err);
+            res.statusCode = 404;
+            res.end('Fichier vidéo non trouvé');
+            return;
+          }
+    
+          fs.createReadStream(videoPath).pipe(res);
+        });
       } catch (error) {
         console.error("Le fichier vidéo est introuvable:", error);
         res.statusCode = 404;
