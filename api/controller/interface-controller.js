@@ -1,5 +1,6 @@
 import { query } from "../helper/query-promises.js";
 import { promises as fsPromises } from "fs";
+import fs from 'fs';
 import { join } from "path";
 
 export const setInterface = async (req, res) => {
