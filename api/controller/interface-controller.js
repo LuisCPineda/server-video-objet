@@ -196,24 +196,25 @@ export const download_video = async (req, res) => {
       const nom_video = await response.map((row) => row.nom_video)[0];
       const taille_video = await response.map((row) => row.taille_video)[0];
       console.log(nom_video, taille_video);
+      const videoPath = join(
+        new URL(import.meta.url).pathname,
+        "..",
+        "videos",
+        nom_video
+      );
+  
+      try {
+        await fsPromises.access(videoPath);
+        const videoStream = fsPromises.createReadStream(videoPath);
+        videoStream.pipe(res);
+      } catch (error) {
+        console.error("Le fichier vidéo est introuvable:", error);
+        res.statusCode = 404;
+        res.end("Fichier vidéo non trouvé");
+      }
     } catch (error) {}
 
     
-    const videoPath = join(
-      new URL(import.meta.url).pathname,
-      "..",
-      "videos",
-      nom_video
-    );
-
-    try {
-      await fsPromises.access(videoPath);
-      const videoStream = fsPromises.createReadStream(videoPath);
-      videoStream.pipe(res);
-    } catch (error) {
-      console.error("Le fichier vidéo est introuvable:", error);
-      res.statusCode = 404;
-      res.end("Fichier vidéo non trouvé");
-    }
+    
 
 };
