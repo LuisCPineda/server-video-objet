@@ -135,7 +135,7 @@ function App() {
     const test = `http://localhost:3000/api/addVideo`;
     const url = `http://20.193.147.114:3000/api/addVideo`;
     try {
-      const response = await fetch(test, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Access-Control-Allow-Origin": "http://localhost:3000",
