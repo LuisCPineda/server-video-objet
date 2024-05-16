@@ -10,6 +10,7 @@ import {
   getVideoSuivante,
   getListVideo
 } from "../controller/interface-controller.js";
+import upload from "../middleware/upload-video.js"
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.post("/miseAJourInterface", setInterface);
 router.post("/setIsLocation",setIsLocation)
 router.post("/setVideoSuivante",setVideoSuivante)
 router.post("/setIsPlayingVideo",setIsPlayingVideo)
+router.post("/addVideo",upload)
 
 export default router;
