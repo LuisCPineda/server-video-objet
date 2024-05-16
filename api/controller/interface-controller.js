@@ -32,27 +32,27 @@ export const setInterface = async (req, res) => {
           console.log(vid)
           const reponseVideo = await query(
             "SELECT * from video_objets where id_video=?",
-            [vid[1]]
+            [vid[0]]
           );
           const idVideoSelected = reponseVideo.map((row) => row.id_video);
           
           if (!idVideoSelected[0]) {
             await query(
               "insert into video_objets (id_objet,id_video) values (?,?)",
-              [id_objet, vid[1]]
+              [id_objet, vid[0]]
             );
             await query(
               "insert into nb_video_jour (id_nb,nb_jouer,temps_total,id_objet_nb_video_jour) values (?,?,?,?)",
-              [vid[0], vid[2], vid[3], vid[1]]
+              [vid[1], vid[3], vid[4], vid[0]]
             );
           }
           await query("update video_objets set id_objet=? Where id_video=?", [
             id_objet,
-            vid[3],
+            vid[0],
           ]);
           await query(
             "update nb_video_jour set nb_jouer=?,temps_total=? WHERE id_objet_nb_video_jour=?",
-            [ vid[2], vid[3], vid[1]]
+            [ vid[3], vid[4], vid[0]]
           );  
         })
         
