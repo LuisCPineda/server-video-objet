@@ -110,7 +110,10 @@ export const getInterfaceReponse = async (req, res) => {
 
 export const getListVideo = async (req,res) =>{
   try{
-    const request = 'select'
+    const request = 'select id_video,id_objet,nom_video from video_objets'
+    const response = await query(request)
+    console.log(response)
+    res.status(200).json(response);
   }catch(error){
     
   }

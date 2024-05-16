@@ -8,6 +8,7 @@ import {
   getIsLocation,
   getIsPlayingVideo,
   getVideoSuivante,
+  getListVideo
 } from "../controller/interface-controller.js";
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.get("/getInterface", getInterfaceReponse);
 router.get("/getIsLocation",getIsLocation)
 router.get("/getIsPlayingVideo",getIsPlayingVideo)
 router.get("/getVideoSuivante",getVideoSuivante)
+router.get("/getListVideo",getListVideo)
 
 router.post("/miseAJourInterface", setInterface);
 router.post("/setIsLocation",setIsLocation)
