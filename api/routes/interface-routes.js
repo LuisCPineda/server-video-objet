@@ -9,7 +9,8 @@ import {
   getIsPlayingVideo,
   getVideoSuivante,
   getListVideo,
-  insertNewVideo
+  insertNewVideo,
+  download_video
 } from "../controller/interface-controller.js";
 import upload from "../middleware/upload-video.js"
 
@@ -21,6 +22,7 @@ router.get("/getIsLocation",getIsLocation)
 router.get("/getIsPlayingVideo",getIsPlayingVideo)
 router.get("/getVideoSuivante",getVideoSuivante)
 router.get("/getListVideo",getListVideo)
+router.get("/downloadVideo",download_video)
 
 router.post("/miseAJourInterface", setInterface);
 router.post("/setIsLocation",setIsLocation)
