@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { createPool } from "./db/mysql.js";
 import interfaceRoutes from "./routes/interface-routes.js";
 import cors from "cors";
+import path from "path";
 
 const app = express();
 app.use(cors());
