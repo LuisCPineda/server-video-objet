@@ -1,7 +1,7 @@
 import multer from "multer";
 
 const storage = multer.diskStorage({
-  destination: './videos/',
+  destination: '../videos',
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   }

@@ -8,7 +8,8 @@ import {
   getIsLocation,
   getIsPlayingVideo,
   getVideoSuivante,
-  getListVideo
+  getListVideo,
+  insertVideo
 } from "../controller/interface-controller.js";
 import upload from "../middleware/upload-video.js"
 
@@ -25,6 +26,6 @@ router.post("/miseAJourInterface", setInterface);
 router.post("/setIsLocation",setIsLocation)
 router.post("/setVideoSuivante",setVideoSuivante)
 router.post("/setIsPlayingVideo",setIsPlayingVideo)
-router.post("/addVideo",upload.single('file'))
+router.post("/addVideo",upload.single('file'),insertVideo)
 
 export default router;

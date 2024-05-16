@@ -8,7 +8,7 @@ function App() {
   const [date, setDate] = useState("");
   const [nbJouer, setNbJouer] = useState("");
   const [tempsTotal, setTempsTotal] = useState("");
-  const [listVideo,setListeVideo] = useState([]);
+  const [listVideo, setListeVideo] = useState([]);
 
   useEffect(() => {
     // Fonction pour effectuer la requête GET
@@ -36,7 +36,7 @@ function App() {
         setDate(objetJson[0].date_jour);
         setNbJouer(objetJson[0].nb_jouer);
         setTempsTotal(objetJson[0].temps_total);
-        fetchList()
+        fetchList();
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
       }
@@ -54,23 +54,23 @@ function App() {
 
   const fetchList = async () => {
     try {
-        const response = await fetch(
-          `http://20.193.147.114:3000/api/getListVideo`,
-          {
-            method: "GET",
-            headers: {
-              "Access-Control-Allow-Origin": "http://localhost:3000",
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const objetJson = await response.json();
-        
-        setListeVideo(objetJson)
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
-      }
-  }
+      const response = await fetch(
+        `http://20.193.147.114:3000/api/getListVideo`,
+        {
+          method: "GET",
+          headers: {
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const objetJson = await response.json();
+
+      setListeVideo(objetJson);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données:", error);
+    }
+  };
 
   const onClickIsLocalisation = async () => {
     try {
@@ -127,28 +127,29 @@ function App() {
       );
     } catch (err) {}
   };
-  const inputAddVideo = async (event)=>{
+  const inputAddVideo = async (event) => {
+    console.log("test");
     const files = event.target.files;
     const formData = new FormData();
-    formData.append('file', files);
+    formData.append("file", files);
+    const test = `http://localhost:3000/api/addVideo`;
+    const url = `http://20.193.147.114:3000/api/addVideo`;
     try {
-        const response = await fetch(
-          `http://20.193.147.114:3000/api/addVideo`,
-          {
-            method: "POST",
-            headers: {
-              "Access-Control-Allow-Origin": "http://localhost:3000",
-              "Content-Type": "application/json",
-            },
-            body: formData,
-          }
-        );
-      } catch (err) {}
-  }
+      const response = await fetch(test, {
+        method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+          "Content-Type": "application/json",
+        },
+        body: formData,
+      });
+      console.log("test");
+    } catch (err) {}
+  };
 
-  const onClickDeleteVideo = async (id_video)=> {
-    console.log(id_video)
-  }
+  const onClickDeleteVideo = async (id_video) => {
+    console.log(id_video);
+  };
 
   return (
     <div className="App">
@@ -231,18 +232,28 @@ function App() {
               <p>{tempsTotal}</p>
             </div>
           </div>
-          <input class="Input" name="file" id="file" type="file" accept="video/mp4,video/x-m4v,video/*"
-                            onchange={(e)=>inputAddVideo(e)}></input>
+          <input
+            class="Input"
+            name="file"
+            id="file"
+            type="file"
+            accept="video/mp4,video/x-m4v,video/*"
+            onChange={(e) => inputAddVideo(e)}
+          ></input>
         </div>
       </div>
       <hr />
       <div class="HeaderDiv">
-      <h1>Liste vidéos</h1>
+        <h1>Liste vidéos</h1>
         {listVideo.map((video) => {
-            return<div class="Statistic">
-                    <p>{video.nom_video}</p>
-                    <button onClick={(e)=>onClickDeleteVideo(video.id_video)}>Supprimer</button>
-                    </div>
+          return (
+            <div class="Statistic">
+              <p>{video.nom_video}</p>
+              <button onClick={(e) => onClickDeleteVideo(video.id_video)}>
+                Supprimer
+              </button>
+            </div>
+          );
         })}
       </div>
     </div>

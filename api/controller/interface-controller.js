@@ -175,5 +175,8 @@ export const getVideoSuivante = async (req, res) => {
 };
 
 export const insertVideo = async (req,res) =>{
-  
+  const nom_video = req.file.originalname;
+  const taille_video = req.file.size;
+  console.log(nom_video)
+  res.status(201)
 }
