@@ -11,7 +11,7 @@ const port = 3000;
 dotenv.config();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname + '/')));
+
 
 
 app.use(express.json({ limit: '50mb' }));

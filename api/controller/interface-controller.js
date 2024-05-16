@@ -200,7 +200,6 @@ export const download_video = async (req, res) => {
 
   }
   
- 
   const filePath = path.join(__dirname, "../videos", nom_video);
 
   fs.access(filePath, fs.constants.F_OK, (err) => {
