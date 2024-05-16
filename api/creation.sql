@@ -5,6 +5,8 @@ CREATE TABLE objets(
     nom_video_current VARCHAR(200),
     local_objet VARCHAR(100),
     is_localisation boolean,
+    is_playing boolean,
+    video_suivante boolean,
     PRIMARY KEY (id_objet)
 );
 

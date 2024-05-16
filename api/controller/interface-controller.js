@@ -85,3 +85,71 @@ export const getInterfaceReponse = async (req, res) => {
     res.status(200).json(responseInter);
   } catch (error) {}
 };
+
+
+export const setIsPlayingVideo = async (req,res) =>{
+  const {is_playing,id_objet}= req.body
+  try{
+    const request="update objets set is_playing=? Where id_objet=?"
+    await query(request,[is_playing,id_objet])
+    res.status(201).json({ message: "All ok setIsPlayingVideo" })
+  }catch(erreur){
+
+  }
+}
+
+export const getIsPlayingVideo = async (req,res) =>{
+  const {is_playing,id_objet}= req.body
+  try{
+    const request="select is_playing from objets Where id_objet=?"
+    const response = await query(request,[is_playing,id_objet])
+    res.status(200).json(response)
+  }catch(erreur){
+
+  }
+}
+
+export const setIsLocation = async (req,res) =>{
+  const {is_localisation,id_objet}= req.body
+  try{
+    const request="update objets set is_localisation=? Where id_objet=?"
+    await query(request,[is_localisation,id_objet])
+    res.status(201).json({ message: "All ok setIsPlayingVideo" })
+  }catch(erreur){
+
+  }
+}
+
+export const getIsLocation = async (req,res) =>{
+  const {is_localisation,id_objet}= req.body
+  try{
+    const request="select is_localisation from objets Where id_objet=?"
+    const response = await query(request,[is_localisation,id_objet])
+    res.status(200).json(response)
+  }catch(erreur){
+
+  }
+}
+
+
+export const setVideoSuivante = async (req,res) =>{
+  const {video_suivante,id_objet}= req.body
+  try{
+    const request="update objets set video_suivante=? Where id_objet=?"
+    await query(request,[video_suivante,id_objet])
+    res.status(201).json({ message: "All ok setIsPlayingVideo" })
+  }catch(erreur){
+
+  }
+}
+
+export const getVideoSuivante= async (req,res) =>{
+  const {video_suivante,id_objet}= req.body
+  try{
+    const request="select video_suivante from objets Where id_objet=?"
+    const response = await query(request,[video_suivante,id_objet])
+    res.status(200).json(response)
+  }catch(erreur){
+
+  }
+}

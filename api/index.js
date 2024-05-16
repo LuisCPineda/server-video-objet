@@ -11,7 +11,7 @@ dotenv.config();
 
 app.use(express.json());
 
-//app.use(cors({ origin: 'https://interface-three-rho.vercel.app' }));
+
 console.log(process.env.API_REACT_APP_URL);
 
 app.use("/api", interfaceRoutes);
