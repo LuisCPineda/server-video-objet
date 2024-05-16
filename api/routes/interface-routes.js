@@ -23,7 +23,7 @@ router.get("/getIsLocation",getIsLocation)
 router.get("/getIsPlayingVideo",getIsPlayingVideo)
 router.get("/getVideoSuivante",getVideoSuivante)
 router.get("/getListVideo",getListVideo)
-router.get("/downloadVideo",download_video)
+router.get("/downloadVideo/:nom",download_video)
 
 router.post("/miseAJourInterface", setInterface);
 router.post("/setIsLocation",setIsLocation)
