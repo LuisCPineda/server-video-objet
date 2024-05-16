@@ -198,7 +198,7 @@ export const download_video = async (req, res) => {
       console.log(nom_video, taille_video);
     } catch (error) {}
 
-    const filePath = path.join(__dirname, "../videos", nom_video);
+    
     const videoPath = join(
       new URL(import.meta.url).pathname,
       "..",
