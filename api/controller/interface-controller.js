@@ -1,6 +1,6 @@
 import { query } from "../helper/query-promises.js";
-import fs from "fs";
-import path from "path";
+import { promises as fsPromises } from "fs";
+import { join } from "path";
 
 export const setInterface = async (req, res) => {
   const {
@@ -189,24 +189,34 @@ export const insertNewVideo = async (req, res) => {
 };
 
 export const download_video = async (req, res) => {
-  
-  try{
-    const request = 'SELECT * from video_download'
-    const response = await query(request)
-    const nom_video = await response.map((row) => row.nom_video)[0];
-    const taille_video = await response.map((row) => row.taille_video)[0];
-    console.log(nom_video,taille_video)
-  }catch(error){
+  if (req.method === "GET" && req.url === "/video") {
+    try {
+      const request = "SELECT * from video_download";
+      const response = await query(request);
+      const nom_video = await response.map((row) => row.nom_video)[0];
+      const taille_video = await response.map((row) => row.taille_video)[0];
+      console.log(nom_video, taille_video);
+    } catch (error) {}
 
-  }
-  
-  const filePath = path.join(__dirname, "../videos", nom_video);
+    const filePath = path.join(__dirname, "../videos", nom_video);
+    const videoPath = join(
+      new URL(import.meta.url).pathname,
+      "..",
+      "videos",
+      nom_video
+    );
 
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      res.status(400).send("Video file does not exist");
-    } else {
-      res.download(filePath);
+    try {
+      await fsPromises.access(videoPath);
+      const videoStream = fsPromises.createReadStream(videoPath);
+      videoStream.pipe(res);
+    } catch (error) {
+      console.error("Le fichier vidéo est introuvable:", error);
+      res.statusCode = 404;
+      res.end("Fichier vidéo non trouvé");
     }
-  });
+  } else {
+    res.statusCode = 404;
+    res.end("Page non trouvée");
+  }
 };
