@@ -129,7 +129,7 @@ function App() {
   };
   const inputAddVideo = async (event) => {
     console.log("test");
-    const files = event.target.files;
+    const files = event.target.files[0];
     const formData = new FormData();
     formData.append("file", files);
     const test = `http://localhost:3000/api/addVideo`;
