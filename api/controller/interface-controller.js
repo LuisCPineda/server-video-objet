@@ -1,4 +1,6 @@
 import { query } from "../helper/query-promises.js";
+import {fs} from fs;
+import {path} from path;
 
 export const setInterface = async (req, res) => {
   const {
@@ -198,14 +200,14 @@ export const download_video = async (req, res) => {
 
   }
   
-  //const fileName = `video${videoIndex}.mp4`;
-  // const filePath = path.join(__dirname, "../videos", fileName);
+ 
+  const filePath = path.join(__dirname, "../videos", nom_video);
 
-  // fs.access(filePath, fs.constants.F_OK, (err) => {
-  //   if (err) {
-  //     res.status(400).send("Video file does not exist");
-  //   } else {
-  //     res.download(filePath);
-  //   }
-  // });
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      res.status(400).send("Video file does not exist");
+    } else {
+      res.download(filePath);
+    }
+  });
 };
